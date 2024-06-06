@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <ul>
+            <li>
+                <a href="{{ url_for('home') }}">Home</a>
+            </li>
+            {% if 'username' in session %}
+                <li>
+                    <a href="{{ url_for('logout') }}">Logout</a>
+                </li>
+                <li>
+                    <a href="{{ url_for('show_user', username=session['username'])}}">profile</a>
+                </li>
+            {% else %}
+                <li>
+                    <a href="{{ url_for('login') }}">Login</a>
+                </li>
+                <li>
+                    <a href="{{ url_for('register') }}">Register</a>
+                </li>
+            {% endif %}
+            <li>
+                <a href="{{ url_for('users') }}">Users</a>
+            </li>
+            <li>
+                <a href="{{ url_for('about') }}">About</a>
+            </li>
+        </ul>
+    </header>
+
+    <div>
+       {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <ul class=flashes>
+            {% for message in messages %}
+              <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+    </div>
+
+    <content>
+        {% block content %}{% endblock %}
+    </content>
+
+    <footer>
+        {% block footer %}
+         2024 <a href="{{ url_for('home', _external=true) }}">Дім інструментів</a>
+        {% endblock %}
+    </footer>
+</body>
+</html>
